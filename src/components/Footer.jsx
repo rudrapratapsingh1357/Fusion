@@ -104,7 +104,7 @@ const Footer = () => {
               </div>
             )}
 
-            {/* Contact */}
+            {/* Contact - TODO: Replace with official FUSION club email when available */}
             <div style={{ marginTop: realSocialLinks.length > 0 ? '20px' : '0' }}>
               <a
                 href="mailto:aviralsachdeva9@gmail.com"

@@ -1,16 +1,66 @@
-# React + Vite
+# FUSION
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**IoT & Robotics Club · GLA University**
 
-Currently, two official plugins are available:
+Official website for FUSION — the IoT & Robotics Club of GLA University, Mathura. Built and maintained by the FUSION team.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Core Domains
 
-## React Compiler
+- **IoT** — Connected devices, sensors, embedded systems, and automation
+- **Robotics** — Autonomous systems, control loops, and mechanical engineering
+- **UAVs** — Flight systems, aerial platforms, and unmanned vehicle engineering
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the Oxlint configuration
+| Technology | Purpose |
+|---|---|
+| React 19 | UI framework |
+| React Router 7 | Client-side routing |
+| Framer Motion 12 | Animations |
+| Tailwind CSS 4 | Utility layout |
+| Vite 8 | Build tooling |
+| Oxlint | Linting |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+Runs at `http://localhost:5173`.
+
+## Production Build
+
+```bash
+npm run build
+```
+
+Output written to `dist/`.
+
+## Project Structure
+
+```
+src/
+  pages/        # Route-level page components
+  components/   # Shared components (Navbar, Footer, BackgroundEffect)
+  data/         # Content data files (team, projects, timeline, blogs)
+
+public/
+  team/         # Team member photos
+  fusion-logo.png
+  fusion-hero-logo.png
+```
+
+## Content
+
+All content is managed through `src/data/`:
+
+| File | Content |
+|---|---|
+| `team.js` | Member roster — names, roles, photos, socials |
+| `projects.js` | Project records — descriptions, categories, tags |
+| `timeline.js` | Journey events — chronological club milestones |
+| `blogs.js` | Blog post metadata and article content |
+
+Add real content by updating these files. No page redesign is needed.

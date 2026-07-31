@@ -57,8 +57,8 @@ const Navbar = () => {
         aria-label="Main navigation"
         style={{
           height: `${NAVBAR_H}px`,
-          backgroundColor: scrolled ? 'rgba(0,0,0,0.96)' : 'rgba(0,0,0,0.45)',
-          borderBottom: scrolled ? '1px solid #1e1e1e' : '1px solid rgba(255,255,255,0.04)',
+          backgroundColor: scrolled ? 'rgba(0,0,0,0.96)' : 'rgba(0,0,0,0.02)',
+          borderBottom: scrolled ? '1px solid #1e1e1e' : '1px solid transparent',
           backdropFilter: 'blur(20px)',
           transition: 'background-color 0.3s ease, border-color 0.3s ease',
         }}
@@ -231,6 +231,8 @@ const Navbar = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
               className="md:hidden"
+              role="navigation"
+              aria-label="Mobile navigation panel"
               style={{
                 position: 'fixed',
                 top: `${NAVBAR_H}px`,
@@ -241,7 +243,6 @@ const Navbar = () => {
                 borderBottom: '1px solid #1e1e1e',
                 backdropFilter: 'blur(20px)',
               }}
-              aria-label="Mobile navigation panel"
             >
               <div style={{ padding: '8px 24px 28px' }}>
                 {navLinks.map(({ name, path, end }) => (

@@ -62,22 +62,7 @@ const NotFound = () => {
 
       <Link
         to="/"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontFamily: "'Space Grotesk', sans-serif",
-          fontWeight: 600,
-          fontSize: '0.9rem',
-          color: '#000',
-          background: C.cyan,
-          padding: '11px 26px',
-          borderRadius: '8px',
-          textDecoration: 'none',
-          transition: 'all 0.2s ease',
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = '#fff'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = C.cyan; }}
+        className="btn btn-primary"
       >
         Back to Home
       </Link>

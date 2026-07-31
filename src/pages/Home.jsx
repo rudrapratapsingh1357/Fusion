@@ -72,11 +72,12 @@ const HeroSection = () => (
   <section
     aria-labelledby="hero-heading"
     style={{
-      minHeight: '88vh',
+      minHeight: '74vh',
       display:   'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      paddingBottom: '56px',
+      paddingTop: '68px',
+      paddingBottom: '32px',
       position:  'relative',
     }}
   >
@@ -184,30 +185,6 @@ const HeroSection = () => (
         </div>
       </motion.div>
     </div>
-
-    {/* Scroll indicator */}
-    <motion.div
-      animate={{ y: [0, 8, 0] }}
-      transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
-      aria-hidden="true"
-      style={{
-        position:       'absolute',
-        bottom:         '24px',
-        left:           '50%',
-        transform:      'translateX(-50%)',
-        display:        'flex',
-        flexDirection:  'column',
-        alignItems:     'center',
-        gap:            '6px',
-        color:          '#374151',
-        pointerEvents:  'none',
-      }}
-    >
-      <div style={{ width: '1px', height: '30px', background: 'linear-gradient(to bottom, transparent, #374151)' }} />
-      <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-        Scroll
-      </span>
-    </motion.div>
   </section>
 );
 

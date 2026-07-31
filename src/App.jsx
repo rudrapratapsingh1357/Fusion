@@ -9,7 +9,10 @@ import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Team from './pages/Team';
 import Blog from './pages/Blog';
-import Blueprint from './pages/Timeline';
+import BlogPostDetail from './pages/BlogPostDetail';
+import Journey from './pages/Timeline';
+import Join from './pages/Join';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -20,11 +23,17 @@ function App() {
           <Navbar />
           <main className="flex-grow pt-28 pb-12 px-6 w-full max-w-7xl mx-auto">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blueprint" element={<Blueprint />} />
+              <Route path="/"           element={<Home />} />
+              <Route path="/projects"   element={<Projects />} />
+              <Route path="/team"       element={<Team />} />
+              <Route path="/blog"       element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPostDetail />} />
+              <Route path="/join"       element={<Join />} />
+              {/* /journey is the primary route; /blueprint kept as a backwards-compatible alias */}
+              <Route path="/journey"    element={<Journey />} />
+              <Route path="/blueprint"  element={<Journey />} />
+              {/* Wildcard: any unregistered URL shows the 404 page */}
+              <Route path="*"           element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

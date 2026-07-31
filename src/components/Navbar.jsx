@@ -1,157 +1,282 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const C = {
-  cyan: '#00FFFF',
-  lightgray: '#2a2a2a',
-};
+const NAVBAR_H = 66;
 
 const navLinks = [
-  { name: 'Projects', path: '/projects' },
-  { name: 'Team', path: '/team' },
-  { name: 'Blueprint', path: '/blueprint' },
-  { name: 'Blog', path: '/blog' },
+  { name: 'Home',     path: '/',         end: true },
+  { name: 'Projects', path: '/projects', end: false },
+  { name: 'Team',     path: '/team',     end: false },
+  { name: 'Journey',  path: '/journey',  end: false },
+  { name: 'Blog',     path: '/blog',     end: false },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuRef = useRef(null);
 
+  // Monitor scroll for styling navbar
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Keyboard Escape key handler to close menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileOpen]);
+
+  // Lock body scroll when mobile menu is active
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
+  const closeMobile = () => setMobileOpen(false);
+
   return (
     <>
+      {/* ── MAIN NAV BAR ── */}
       <nav
+        aria-label="Main navigation"
         style={{
-          backgroundColor: scrolled ? 'rgba(0,0,0,0.95)' : 'rgba(0,0,0,0.6)',
-          borderBottom: `1px solid ${scrolled ? C.lightgray : 'rgba(255,255,255,0.06)'}`,
-          backdropFilter: 'blur(16px)',
-          transition: 'all 0.3s ease',
+          height: `${NAVBAR_H}px`,
+          backgroundColor: scrolled ? 'rgba(0,0,0,0.96)' : 'rgba(0,0,0,0.45)',
+          borderBottom: scrolled ? '1px solid #1e1e1e' : '1px solid rgba(255,255,255,0.04)',
+          backdropFilter: 'blur(20px)',
+          transition: 'background-color 0.3s ease, border-color 0.3s ease',
         }}
         className="fixed top-0 left-0 w-full z-50"
       >
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
+        <div
+          className="h-full flex items-center justify-between"
+          style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', gap: '20px' }}
+        >
 
-          {/* ── LOGO ── */}
-          <NavLink to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          {/* ── LOGO / IDENTITY ── */}
+          <NavLink
+            to="/"
+            onClick={closeMobile}
+            aria-label="FUSION — home"
+            style={{
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              flexShrink: 0,
+            }}
+          >
             <img
               src="/fusion-logo.png"
-              alt="FUSION Club"
-              style={{
-                height: '52px',
-                width: 'auto',
-              }}
+              alt=""
+              aria-hidden="true"
+              style={{ height: '36px', width: 'auto' }}
             />
-          </NavLink>
-
-          {/* ── DESKTOP NAV LINKS ── */}
-          <div className="hidden md:flex items-center gap-2">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.path}
-                style={({ isActive }) => ({
+            <div style={{ lineHeight: 1.25 }}>
+              <div style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                fontSize: '0.97rem',
+                color: '#fff',
+                letterSpacing: '-0.01em',
+              }}>
+                FUSION<span style={{ color: '#00FFFF' }}>.</span>
+              </div>
+              
+              {/* Responsive Subtitle: Hides on tablets/small laptops before navigation collapses to mobile */}
+              <div 
+                className="hidden lg:block"
+                style={{
                   fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.9rem',
-                  fontWeight: isActive ? 600 : 400,
-                  textDecoration: 'none',
-                  color: isActive ? '#fff' : '#9CA3AF',
-                  padding: '6px 16px',
-                  borderRadius: '6px',
-                  backgroundColor: isActive ? 'rgba(255,255,255,0.08)' : 'transparent',
-                  transition: 'all 0.2s ease',
-                })}
-                onMouseEnter={(e) => {
-                  const isActive = e.currentTarget.getAttribute('aria-current') === 'page';
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#fff';
-                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const isActive = e.currentTarget.getAttribute('aria-current') === 'page';
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#9CA3AF';
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }
+                  fontSize: '0.64rem',
+                  color: '#6B7280',
+                  fontWeight: 400,
+                  letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap',
                 }}
               >
-                {link.name}
+                IoT &amp; Robotics Club &nbsp;·&nbsp; GLA University
+              </div>
+            </div>
+          </NavLink>
+
+          {/* ── DESKTOP LINKS (hidden on mobile, visible on desktop) ── */}
+          <div className="hidden md:flex items-center gap-1 flex-grow justify-end">
+            {navLinks.map(({ name, path, end }) => (
+              <NavLink
+                key={name}
+                to={path}
+                end={end}
+                className={({ isActive }) =>
+                  isActive ? 'nav-link nav-link--active' : 'nav-link'
+                }
+              >
+                {name}
               </NavLink>
             ))}
+
+            {/* Separator */}
+            <div style={{
+              width: '1px',
+              height: '16px',
+              background: '#2a2a2a',
+              margin: '0 8px',
+              flexShrink: 0,
+            }} aria-hidden="true" />
+
+            {/* Join CTA */}
+            <Link
+              to="/join"
+              className="btn btn-ghost-cyan"
+              id="navbar-join-cta"
+            >
+              Join FUSION
+            </Link>
           </div>
 
-          {/* ── MOBILE HAMBURGER ── */}
+          {/* ── MOBILE HAMBURGER BUTTON (hidden on desktop, flex on mobile/tablet) ── */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            aria-label="Toggle menu"
+            className="flex md:hidden"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
           >
-            {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '2px',
-                  backgroundColor: '#fff',
-                  borderRadius: '2px',
-                  transition: 'all 0.3s ease',
-                  transform:
-                    mobileOpen && i === 0 ? 'rotate(45deg) translate(3px, 3px)' :
-                      mobileOpen && i === 1 ? 'scaleX(0)' :
-                        mobileOpen && i === 2 ? 'rotate(-45deg) translate(3px, -3px)' :
-                          'none',
-                }}
-              />
-            ))}
+            {/* Animated hamburger icon (hamburger -> X) */}
+            <span
+              style={{ display: 'block', width: '22px', height: '16px', position: 'relative' }}
+              aria-hidden="true"
+            >
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    width: '100%',
+                    height: '2px',
+                    background: '#fff',
+                    borderRadius: '2px',
+                    transition: 'all 0.25s ease',
+                    top:
+                      i === 0 ? (mobileOpen ? '7px' : '0')
+                      : i === 1 ? '7px'
+                      : mobileOpen ? '7px' : '14px',
+                    transform:
+                      mobileOpen && i === 0 ? 'rotate(45deg)'
+                      : mobileOpen && i === 2 ? 'rotate(-45deg)'
+                      : 'none',
+                    opacity: mobileOpen && i === 1 ? 0 : 1,
+                  }}
+                />
+              ))}
+            </span>
           </button>
         </div>
       </nav>
 
-      {/* ── MOBILE MENU ── */}
+      {/* ── MOBILE MENU & BACKDROP ── */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 w-full z-40 md:hidden"
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.97)',
-              borderBottom: `1px solid ${C.lightgray}`,
-              backdropFilter: 'blur(16px)',
-            }}
-          >
-            <div className="flex flex-col px-8 py-4 gap-1">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileOpen(false)}
-                  style={({ isActive }) => ({
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: '1rem',
-                    fontWeight: isActive ? 600 : 400,
-                    textDecoration: 'none',
-                    color: isActive ? '#fff' : '#9CA3AF',
-                    padding: '14px 0',
-                    borderBottom: `1px solid ${C.lightgray}`,
-                    display: 'block',
-                  })}
-                >
-                  {link.name}
-                </NavLink>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            {/* Backdrop layer to catch outside clicks and close menu */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={closeMobile}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(4px)',
+                zIndex: 48,
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Menu panel */}
+            <motion.div
+              key="mobile-nav"
+              id="mobile-nav"
+              ref={menuRef}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="md:hidden"
+              style={{
+                position: 'fixed',
+                top: `${NAVBAR_H}px`,
+                left: 0,
+                right: 0,
+                zIndex: 49,
+                backgroundColor: 'rgba(4, 4, 4, 0.98)',
+                borderBottom: '1px solid #1e1e1e',
+                backdropFilter: 'blur(20px)',
+              }}
+              aria-label="Mobile navigation panel"
+            >
+              <div style={{ padding: '8px 24px 28px' }}>
+                {navLinks.map(({ name, path, end }) => (
+                  <NavLink
+                    key={name}
+                    to={path}
+                    end={end}
+                    onClick={closeMobile}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'nav-link-mobile nav-link-mobile--active'
+                        : 'nav-link-mobile'
+                    }
+                  >
+                    {name}
+                  </NavLink>
+                ))}
+
+                <div style={{
+                  marginTop: '20px',
+                  paddingTop: '20px',
+                  borderTop: '1px solid #1e1e1e',
+                }}>
+                  <Link
+                    to="/join"
+                    onClick={closeMobile}
+                    className="btn btn-ghost-cyan"
+                    style={{ width: '100%', justifyContent: 'center' }}
+                  >
+                    Join FUSION
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

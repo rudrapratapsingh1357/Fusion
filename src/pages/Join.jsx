@@ -11,7 +11,7 @@ const C = {
 };
 
 // Configurable Google Form URL
-const GOOGLE_FORM_URL = "https://forms.gle/xyz123placeholder"; // Update this link with the real Google Form URL when provided
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe9_evfndzEXh7L1I_TT1nO_tvZCTtdaM06Ls5fW1IsKCuRMA/viewform?usp=publish-editor"; // Update this link with the real Google Form URL when provided
 
 const Join = () => {
   const domainHighlights = [

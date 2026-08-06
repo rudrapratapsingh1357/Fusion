@@ -1,58 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Wifi, Bot, Plane } from 'lucide-react';
+import { Wifi, Bot, Plane, ExternalLink, Sparkles } from 'lucide-react';
 
 const C = {
   cyan: '#00FFFF',
   border: '#1e1e1e',
   muted: '#6B7280',
   secondary: '#9CA3AF',
+  surface: '#0A0A0A',
 };
 
+// Configurable Google Form URL
+const GOOGLE_FORM_URL = "https://forms.gle/xyz123placeholder"; // Update this link with the real Google Form URL when provided
+
 const Join = () => {
-  // Form state for validation and display, even though submission is disabled
-  const [formData, setFormData] = useState({
-    fullName: '',
-    courseBranch: '',
-    yearOfStudy: '',
-    email: '',
-    whatsappNumber: '',
-    iotKnowledge: '',
-    roboticsKnowledge: '',
-    uavKnowledge: '',
-    experience: '',
-    reason: '',
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Validate fields just to demonstrate client-side feedback/validation capability
-    const newErrors = {};
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
-    if (!formData.courseBranch.trim()) newErrors.courseBranch = 'Course / Branch is required';
-    if (!formData.yearOfStudy) newErrors.yearOfStudy = 'Year of Study is required';
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    if (!formData.whatsappNumber.trim()) {
-      newErrors.whatsappNumber = 'Contact number is required';
-    }
-
-    setErrors(newErrors);
-  };
-
   const domainHighlights = [
     {
       Icon: Wifi,
@@ -179,211 +140,144 @@ const Join = () => {
           </div>
         </motion.div>
 
-        {/* ── RIGHT COLUMN: REGISTRATION FORM ── */}
+        {/* ── RIGHT COLUMN: GOOGLE FORM CTA & INTERESTING GRAPHIC ── */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '32px',
+          }}
         >
-          <form
-            onSubmit={handleFormSubmit}
-            noValidate
-            style={{
+          {/* Main Visual Container */}
+          <div style={{
+            background: 'linear-gradient(135deg, #050505 0%, #0c0c0c 100%)',
+            border: `1px solid ${C.border}`,
+            borderRadius: '16px',
+            padding: '40px',
+            position: 'relative',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
+          }}>
+            {/* Ambient Cyan Glow behind the logo */}
+            <div style={{
+              position: 'absolute',
+              top: '30%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '240px',
+              height: '240px',
+              background: 'radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }} />
+
+            {/* FUSION Cybernetic Brain Graphic */}
+            <div style={{
+              width: '260px',
+              height: '260px',
+              borderRadius: '12px',
               display: 'flex',
-              flexDirection: 'column',
-              gap: '24px',
-            }}
-          >
-            {/* Full Name */}
-            <div>
-              <label htmlFor="fullName" className="form-label">Full Name *</label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                className={`form-input ${errors.fullName ? 'is-error' : ''}`}
-                placeholder="Enter your full name"
-                required
-              />
-              {errors.fullName && <span className="form-error">{errors.fullName}</span>}
-            </div>
-
-            {/* Course / Branch */}
-            <div>
-              <label htmlFor="courseBranch" className="form-label">Course / Branch *</label>
-              <input
-                type="text"
-                id="courseBranch"
-                name="courseBranch"
-                value={formData.courseBranch}
-                onChange={handleInputChange}
-                className={`form-input ${errors.courseBranch ? 'is-error' : ''}`}
-                placeholder="e.g. B.Tech CSE, BCA"
-                required
-              />
-              {errors.courseBranch && <span className="form-error">{errors.courseBranch}</span>}
-            </div>
-
-            {/* Year of Study */}
-            <div>
-              <label htmlFor="yearOfStudy" className="form-label">Year of Study *</label>
-              <select
-                id="yearOfStudy"
-                name="yearOfStudy"
-                value={formData.yearOfStudy}
-                onChange={handleInputChange}
-                className={`form-select ${errors.yearOfStudy ? 'is-error' : ''}`}
-                required
-              >
-                <option value="">Select your year</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-              </select>
-              {errors.yearOfStudy && <span className="form-error">{errors.yearOfStudy}</span>}
-            </div>
-
-            {/* Email Address */}
-            <div>
-              <label htmlFor="email" className="form-label">Email Address *</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className={`form-input ${errors.email ? 'is-error' : ''}`}
-                placeholder="e.g. yourname@gla.ac.in"
-                required
-              />
-              {errors.email && <span className="form-error">{errors.email}</span>}
-            </div>
-
-            {/* WhatsApp / Contact Number */}
-            <div>
-              <label htmlFor="whatsappNumber" className="form-label">Contact / WhatsApp Number *</label>
-              <input
-                type="tel"
-                id="whatsappNumber"
-                name="whatsappNumber"
-                value={formData.whatsappNumber}
-                onChange={handleInputChange}
-                className={`form-input ${errors.whatsappNumber ? 'is-error' : ''}`}
-                placeholder="Enter 10-digit number"
-                required
-              />
-              {errors.whatsappNumber && <span className="form-error">{errors.whatsappNumber}</span>}
-            </div>
-
-            {/* IoT Knowledge Level */}
-            <div>
-              <label htmlFor="iotKnowledge" className="form-label">What do you know about IoT?</label>
-              <select
-                id="iotKnowledge"
-                name="iotKnowledge"
-                value={formData.iotKnowledge}
-                onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="">Select your experience level</option>
-                <option value="none">Never explored it</option>
-                <option value="basic">Know the basics</option>
-                <option value="advanced">Built / experimented with it</option>
-              </select>
-            </div>
-
-            {/* Robotics Knowledge Level */}
-            <div>
-              <label htmlFor="roboticsKnowledge" className="form-label">What do you know about Robotics?</label>
-              <select
-                id="roboticsKnowledge"
-                name="roboticsKnowledge"
-                value={formData.roboticsKnowledge}
-                onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="">Select your experience level</option>
-                <option value="none">Never explored it</option>
-                <option value="basic">Know the basics</option>
-                <option value="advanced">Built / experimented with it</option>
-              </select>
-            </div>
-
-            {/* UAV Knowledge Level */}
-            <div>
-              <label htmlFor="uavKnowledge" className="form-label">What do you know about UAVs / Drones?</label>
-              <select
-                id="uavKnowledge"
-                name="uavKnowledge"
-                value={formData.uavKnowledge}
-                onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="">Select your experience level</option>
-                <option value="none">Never explored it</option>
-                <option value="basic">Know the basics</option>
-                <option value="advanced">Built / experimented with it</option>
-              </select>
-            </div>
-
-            {/* Project / Experimentation Details */}
-            <div>
-              <label htmlFor="experience" className="form-label">What have you built, learned or experimented with? (Optional)</label>
-              <textarea
-                id="experience"
-                name="experience"
-                value={formData.experience}
-                onChange={handleInputChange}
-                className="form-textarea"
-                placeholder="Briefly describe any projects, programming languages or hardware you have experimented with..."
-              />
-            </div>
-
-            {/* Reason to join */}
-            <div>
-              <label htmlFor="reason" className="form-label">Why do you want to join FUSION? (Optional)</label>
-              <textarea
-                id="reason"
-                name="reason"
-                value={formData.reason}
-                onChange={handleInputChange}
-                className="form-textarea"
-                placeholder="What interests you most about FUSION..."
-              />
-            </div>
-
-            {/* Submit area with explicit warning and disabled action */}
-            <div style={{ marginTop: '12px', borderTop: `1px solid ${C.border}`, paddingTop: '24px' }}>
-              <p
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '32px',
+              zIndex: 2,
+            }}>
+              <img
+                src="/fusion-hero-logo.png"
+                alt="FUSION Cybernetics"
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '0.85rem',
-                  color: '#EF4444',
-                  lineHeight: 1.6,
-                  marginBottom: '16px',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  filter: 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.1)',
+                  mixBlendMode: 'screen',
+                  opacity: 0.85,
                 }}
-              >
-                * Online submissions will open soon. The form below is currently a frontend prototype.
+              />
+            </div>
+
+            <div style={{ zIndex: 2, maxWidth: '440px' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(0, 255, 255, 0.06)',
+                border: '1px solid rgba(0, 255, 255, 0.15)',
+                borderRadius: '99px',
+                padding: '6px 14px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                color: C.cyan,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                marginBottom: '16px',
+              }}>
+                <Sparkles size={12} />
+                Recruitment Cohort 2026
+              </div>
+
+              <h2 style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '1.6rem',
+                fontWeight: 700,
+                color: '#fff',
+                marginBottom: '12px',
+                letterSpacing: '-0.02em',
+              }}>
+                Apply Online
+              </h2>
+
+              <p style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '0.92rem',
+                color: C.secondary,
+                lineHeight: 1.6,
+                marginBottom: '32px',
+              }}>
+                We have migrated our application process to Google Forms. Click below to fill out the form and submit your profile, interests, and project experience.
               </p>
-              
-              <button
-                type="submit"
+
+              <a
+                href={GOOGLE_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-primary"
                 style={{
                   width: '100%',
                   justifyContent: 'center',
-                  opacity: 0.6,
-                  cursor: 'not-allowed',
+                  padding: '14px 28px',
+                  fontSize: '0.98rem',
+                  boxShadow: '0 0 20px rgba(0, 255, 255, 0.15)',
+                  transition: 'all 0.3s ease',
                 }}
-                disabled
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.35)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.15)';
+                }}
               >
-                Registration Opening Soon
-              </button>
+                Open Google Form <ExternalLink size={16} />
+              </a>
+
+              <p style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '0.78rem',
+                color: C.muted,
+                marginTop: '16px',
+                lineHeight: 1.4,
+              }}>
+                * Make sure to log in with your university account to access the form.
+              </p>
             </div>
-          </form>
+          </div>
         </motion.div>
 
       </div>

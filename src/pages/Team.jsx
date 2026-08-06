@@ -191,6 +191,7 @@ const Team = () => {
   const execSection = teamSections.find((s) => s.key === 'Executive Board');
   const techSection = teamSections.find((s) => s.key === 'Technical Wing');
   const opsSection = teamSections.find((s) => s.key === 'Operations & Outreach');
+  const membersSection = teamSections.find((s) => s.key === 'Club Members');
 
   // Map accents dynamically using exported teamAccentColors
   const getAccent = (key) => teamAccentColors[key] || C.cyan;
@@ -372,6 +373,43 @@ const Team = () => {
                 <MemberCard
                   {...member}
                   accent={getAccent(opsSection.accentKey)}
+                  sizeClass="aspect-square"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── SECTION 4: CLUB MEMBERS ── */}
+      {membersSection && (
+        <section style={{ marginBottom: '88px' }} aria-labelledby="members-heading">
+          <motion.div {...reveal()} style={{ marginBottom: '36px', borderTop: `1px solid ${C.border}`, paddingTop: '48px' }}>
+            <span style={{ fontSize: '0.68rem', letterSpacing: '0.12em', color: getAccent(membersSection.accentKey), textTransform: 'uppercase', fontWeight: 600 }}>
+              General Wing
+            </span>
+            <h2
+              id="members-heading"
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 800,
+                fontSize: 'clamp(1.5rem, 3.2vw, 2.2rem)',
+                color: '#fff',
+                letterSpacing: '-0.025em',
+                marginTop: '4px',
+              }}
+            >
+              {membersSection.label}
+            </h2>
+          </motion.div>
+
+          {/* Clean symmetric grid for general members */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {membersSection.members.map((member, i) => (
+              <motion.div key={member.name} {...reveal(0.05 + i * 0.05)}>
+                <MemberCard
+                  {...member}
+                  accent={getAccent(membersSection.accentKey)}
                   sizeClass="aspect-square"
                 />
               </motion.div>
